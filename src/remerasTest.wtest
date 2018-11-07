@@ -1,0 +1,27 @@
+import remeras.*
+
+describe "group of tests" {
+const valoresActuales = new ValorRemera (remeraChica = 100, remeraGrande = 120)
+const modeloRemera1 = new RemeraLisa (talle = 42, color = "Negro", preciosActuales = valoresActuales) //120
+const modeloRemera2 = new RemeraLisa (talle = 42, color = "Rojo", preciosActuales = valoresActuales) //132
+const pedido1 = new Pedido (cantidad = 5, remera = modeloRemera1)
+const pedido2 = new Pedido (cantidad = 2, remera = modeloRemera2)
+const sucursal1 = new Sucursal (cantRemerasMinParaDescuento = 5, pedidos = [pedido1, pedido2])
+const comercio = new Comercio (sucursales = [sucursal1], registroDePedidos = [pedido1, pedido2])
+	test "testParteA" {	
+		assert.equals(modeloRemera1.precio(), 120)
+	}
+	test "testParteB" {	
+		pedido1.sucursal(sucursal1)
+		assert.equals(pedido1.precioFinal(), 540)
+	}
+	test "testParteB2" {	
+		pedido2.sucursal(sucursal1)
+		assert.equals(pedido2.precioFinal(), 264)
+	}
+	test "testParteC" {	
+		pedido1.sucursal(sucursal1)
+		pedido2.sucursal(sucursal1)
+		assert.equals(comercio.totalFacturadoPor(sucursal1), 804)
+	}
+}
