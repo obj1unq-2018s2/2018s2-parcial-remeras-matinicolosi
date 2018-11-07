@@ -6,7 +6,7 @@ class ValorRemera {
 class RemeraLisa {
 	const property talle = 0 // del 32 al 48.
 	const property color = "Roja"
-	const property preciosActuales = null // de tipo ValorRemera
+	var property preciosActuales = null // de tipo ValorRemera
 	method precioSegunTalle () {
 		return if (talle < 41) preciosActuales.remeraChica()
 		else preciosActuales.remeraGrande()
@@ -84,7 +84,7 @@ class Comercio {
 	}
 	method tallesSinPedido () {
 		const talles = new Range (32, 48)
-		talles.filter{talle => not registroDePedidos.any{pedido => pedido.talle() == talle} }
+		return talles.filter{talle => not registroDePedidos.any{pedido => pedido.remera().talle() == talle} }
 	}
 	method sucursalQueMasFacturo () {
 		return sucursales.max{sucursal => self.totalFacturadoPor (sucursal)}

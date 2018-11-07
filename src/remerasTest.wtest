@@ -2,14 +2,19 @@ import remeras.*
 
 describe "group of tests" {
 const valoresActuales = new ValorRemera (remeraChica = 100, remeraGrande = 120)
-const modeloRemera1 = new RemeraLisa (talle = 42, color = "Negro", preciosActuales = valoresActuales) //120
-const modeloRemera2 = new RemeraLisa (talle = 42, color = "Rojo", preciosActuales = valoresActuales) //132
+const valoresActuales2 = new ValorRemera (remeraChica = 130, remeraGrande = 150)
+const modeloRemera1 = new RemeraLisa (talle = 42, color = "Negro", preciosActuales = valoresActuales)
+const modeloRemera2 = new RemeraLisa (talle = 43, color = "Rojo", preciosActuales = valoresActuales)
 const pedido1 = new Pedido (cantidad = 5, remera = modeloRemera1)
 const pedido2 = new Pedido (cantidad = 2, remera = modeloRemera2)
 const sucursal1 = new Sucursal (cantRemerasMinParaDescuento = 5, pedidos = [pedido1, pedido2])
-const comercio = new Comercio (sucursales = [sucursal1], registroDePedidos = [pedido1, pedido2])
+const sucursal2 = new Sucursal (cantRemerasMinParaDescuento = 5, pedidos = [])
+const comercio = new Comercio (sucursales = [sucursal1, sucursal2], registroDePedidos = [pedido1, pedido2])
 	test "testParteA" {	
 		assert.equals(modeloRemera1.precio(), 120)
+	}
+	test "testParteA2" {	
+		assert.equals(modeloRemera2.precio(), 132)
 	}
 	test "testParteB" {	
 		pedido1.sucursal(sucursal1)
@@ -23,5 +28,19 @@ const comercio = new Comercio (sucursales = [sucursal1], registroDePedidos = [pe
 		pedido1.sucursal(sucursal1)
 		pedido2.sucursal(sucursal1)
 		assert.equals(comercio.totalFacturadoPor(sucursal1), 804)
+	}
+	test "testParteC2" {	
+		pedido1.sucursal(sucursal1)
+		pedido2.sucursal(sucursal1)
+		assert.equals(comercio.tallesSinPedido(), [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 44, 45, 46, 47, 48])
+	}
+	test "testParteC3" {	
+		pedido1.sucursal(sucursal1)
+		pedido2.sucursal(sucursal1)
+		assert.equals(comercio.sucursalQueMasFacturo(), sucursal1)
+	}
+	test "testParteD" {
+		modeloRemera1.preciosActuales(valoresActuales2)
+		assert.equals(modeloRemera1.precio(), 150)
 	}
 }
